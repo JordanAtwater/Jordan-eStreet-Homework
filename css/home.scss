@@ -1,0 +1,55 @@
+---
+---
+@import "mixins.scss";
+@import "vars.scss";
+#home {
+  #location-section {
+    text-align: center;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .inner-section {
+      color: $white;
+      
+      
+      .location-vis {
+        position: relative;
+        overflow: hidden;
+        height: 110px;
+        #user-location {
+          position: relative;
+          transform: translateY(100%);
+          opacity: 0;
+          @include transition(transform,opacity);
+          
+          &:after {
+            content: '';
+            display: block;
+            width: 0%;
+            background-color: $white;
+            top: 4px;
+            position: relative;
+            height: 8px;
+            @include transition(width);
+            transition-delay: 0.3s;
+          }
+        }
+        &.active {
+          #user-location {
+            transform: translateY(0%);
+            opacity: 1;
+            &:after {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+    .privacy-link {
+      position: absolute;
+      bottom: 1rem;
+    }
+
+  }
+}
