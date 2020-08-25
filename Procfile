@@ -1,1 +1,1 @@
-worker: bundle exec jekyll serve --livereload
+web: bundle exec jekyll serve --port 8080 --livereload
