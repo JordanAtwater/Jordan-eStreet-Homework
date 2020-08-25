@@ -1,1 +1,1 @@
-web: bundle exec jekyll serve --livereload
+worker: bundle exec jekyll serve --livereload
