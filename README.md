@@ -19,6 +19,7 @@ http://jordansestreethw.com.s3-website-us-east-1.amazonaws.com/
 http://staging.jordansestreethw.com.s3-website-us-east-1.amazonaws.com/
 
 ##Notes to developer: Firefox does have an issue running the js app but IE/Edge/Chrome can run it just fine
+
 ##Skip to Deployment Steps if you dont want to the prereqs
 
 ##To avoid issues with windows the following steps were run to keep all information on AWS
@@ -48,24 +49,25 @@ For Mac/Linux CLI only instances:
 ssh -L 5901:localhost:5901 -i PEM_FILE ec2-user@INSTANCE_IP
 
 
-## Steps to Deploy to website
+## Steps to Deploy to website 
+## Due to clients urgency master was prioritized to get online first before staging
 
 Deployment Steps:
 
-*Confirm git branch w/ git status, if not in staging use git checkout staging*
+*Confirm git branch w/ git status, if not in master use git checkout master*
 1) After going through the local install documentation cd to the _site directory
 2) Run 's3_website cfg create' to generate the s3_website.yml file
-3) vi s3_website.yml and enter AWS creds and S3 bucket name (place staging.sitename.com here)
+3) vi s3_website.yml and enter AWS creds and S3 bucket name (place sitename.com here)
 4) s3_website cfg apply (the bucket will generate if it didnt already exist)
 5) s3_website push (use this for every update/change to the site)
-6) Check the status of the website at the presented url after you have used the s3 push command (format staging.bucketname.awsregion.com)
-7) Once confirmed operational use git add/commit/push commands then  checkout to switch to the master branch and repeat those steps without the staging prefix on site.
+6) Check the status of the website at the presented url after you have used the s3 push command (format bucketname.awsregion.com)
+7) Once confirmed operational use git add/commit/push commands then  checkout to switch to the staging branch and repeat those steps with the staging prefix on site.
 8) Once both are confirmed operational create an AMI of the server to have a working backup for future updates failsafe
 
 
 ## Included steps if free tier limitations did not exist/best practices
--Use AWS Certificate Manager to generate a secure SSL Cert for websites
--Purchasing the domain name (if not already done) and using Amazon Route 53 to route all traffic to the s3 bucket containing our website
--Elastic Beanstalk/Cloud watch for continuous integration and monitoring/alerts
--Separation of staging/dev environments in separate ec2 instances
+* Use AWS Certificate Manager to generate a secure SSL Cert for websites
+* Purchasing the domain name (if not already done) and using Amazon Route 53 to route all traffic to the s3 bucket containing our website
+* Elastic Beanstalk/Cloud watch for continuous integration and monitoring/alerts
+* Separation of staging/dev environments in separate ec2 instances
 
