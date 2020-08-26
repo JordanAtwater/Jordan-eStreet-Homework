@@ -14,3 +14,49 @@ Now that you have Jekyll running locally, you'll notice a new directory has appe
 
 Jekyll has [additional documentation](https://jekyllrb.com/docs/deployment/) on deployments if you need further guidance. 
 
+##To avoid issues with windows the following steps were run to keep all information on AWS
+
+How To Additional steps
+*Ran steps off of a windows machine using a free tier AWS Linux 2 ec2 instance so didnt have native gui to check website status*
+1) install MATE: sudo amazon-linux-extras install mate-desktop1.x
+2) Define mate to all users: sudo bash -c 'echo PREFERRED=/usr/bin/mate-session > /etc/sysconfig/desktop'
+2 Optional) To define MATE for the current user only: echo "/usr/bin/mate-session" > ~/.Xclients && chmod +x ~/.Xclients
+3) Install TigerVNC: sudo yum install tigervnc-server
+4) Congfigure VNC password atleast 6 characters: vncpasswd
+5) Start VNC server: vncserver :1
+6) Create new systemd unit: sudo cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@.service
+7) Replace all occurences of <USER> in new unit with ec2-user: sudo sed -i 's/<USER>/ec2-user/' /etc/systemd/system/vncserver@.service
+8) Reload systemd: sudo systemctl daemon-reload
+9) Enable the service: sudo systemctl enable vncserver@:1
+10) Start the service: sudo systemctl start vncserver@:1
+
+For windows:
+1) Open PuTTYgen and generate a putty key of your access key for the server
+2) Enter all the server information to connect but before connecting go to Connection menu -> ssh -> tunnels
+3) Enter 5901 in Source Port, localhost:5901 in Destination, then select Add
+4) Open VNC for localhost:1 and you can now check http://localhost:4000
+
+For Mac/Linux CLI only instances:
+ssh -L 5901:localhost:5901 -i PEM_FILE ec2-user@INSTANCE_IP
+
+
+## Steps to Deploy to website
+
+Deployment Steps:
+* Confirm git branch w/ git status, if not in staging use git checkout staging
+1) After going through the local install documentation cd to the _site directory
+2) Run 's3_website cfg create' to generate the s3_website.yml file
+3) vi s3_website.yml and enter AWS creds and S3 bucket name (place staging.sitename.com here)
+4) s3_website cfg apply (the bucket will generate if it didnt already exist)
+5) s3_website push (use this for every update/change to the site)
+6) Check the status of the website at the presented url after you have used the s3 push command (format staging.bucketname.awsregion.com)
+7) Once confirmed operational use git add/commit/push commands then  checkout to switch to the master branch and repeat those steps without the staging prefix on site.
+8) Once both are confirmed operational create an AMI of the server to have a working backup for future updates failsafe
+
+
+## Included steps if free tier limitations did not exist/best practices
+-Use AWS Certificate Manager to generate a secure SSL Cert for websites
+-Purchasing the domain name (if not already done) and using Amazon Route 53 to route all traffic to the s3 bucket containing our website
+-Elastic Beanstalk/Cloud watch for continuous integration and monitoring/alerts
+-Separation of staging/dev environments in separate ec2 instances
+
