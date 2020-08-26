@@ -18,6 +18,7 @@ Website URLS:
 http://jordansestreethw.com.s3-website-us-east-1.amazonaws.com/
 http://staging.jordansestreethw.com.s3-website-us-east-1.amazonaws.com/
 
+##Notes to developer: Firefox does have an issue running the js app but IE/Edge/Chrome can run it just fine
 ##Skip to Deployment Steps if you dont want to the prereqs
 
 ##To avoid issues with windows the following steps were run to keep all information on AWS
