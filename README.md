@@ -14,9 +14,16 @@ Now that you have Jekyll running locally, you'll notice a new directory has appe
 
 Jekyll has [additional documentation](https://jekyllrb.com/docs/deployment/) on deployments if you need further guidance. 
 
+Website URLS:
+http://jordansestreethw.com.s3-website-us-east-1.amazonaws.com/
+http://staging.jordansestreethw.com.s3-website-us-east-1.amazonaws.com/
+
+##Skip to Deployment Steps if you dont want to the prereqs
+
 ##To avoid issues with windows the following steps were run to keep all information on AWS
 
-How To Additional steps
+How To Additional steps:
+
 *Ran steps off of a windows machine using a free tier AWS Linux 2 ec2 instance so didnt have native gui to check website status*
 1) install MATE: sudo amazon-linux-extras install mate-desktop1.x
 2) Define mate to all users: sudo bash -c 'echo PREFERRED=/usr/bin/mate-session > /etc/sysconfig/desktop'
@@ -43,7 +50,8 @@ ssh -L 5901:localhost:5901 -i PEM_FILE ec2-user@INSTANCE_IP
 ## Steps to Deploy to website
 
 Deployment Steps:
-* Confirm git branch w/ git status, if not in staging use git checkout staging
+
+*Confirm git branch w/ git status, if not in staging use git checkout staging*
 1) After going through the local install documentation cd to the _site directory
 2) Run 's3_website cfg create' to generate the s3_website.yml file
 3) vi s3_website.yml and enter AWS creds and S3 bucket name (place staging.sitename.com here)
